@@ -13,6 +13,7 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 
 Route::get('role/{role}/permissions', [RoleController::class, 'permissions'])->name('role.permissions');
+Route::put('role/{role}/permissions/sync', [RoleController::class, 'permissionsSync'])->name('role.permissionsSync');
 Route::resource('roles', RoleController::class);
 
 Route::resource('permissions', PermissionController::class);

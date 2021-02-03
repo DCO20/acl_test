@@ -17,16 +17,21 @@
                                 </div>
                             @endforeach
                         @endif
-                        <h4 class="mt-3">Cadastrar novo perfil</h4><hr>
-                        <form action="{{route('roles.store')}}" method="post" class="mt-4" autocomplete="off">
-                            @csrf
+                        
+                        <h4 class="mt-4">Permissões para: {{$role->name}}</h4>
 
-                            <div class="form-group">
-                                <label for="name">Nome:</label>
-                                <input type="text" class="form-control" id="name" placeholder="Digite o nome"
-                                       name="name" value="{{ old('name') }}">
-                            </div>
-                            <button type="submit" class="btn btn-block btn-success mt-3">Cadastrar</button>
+                        <form action="{{ route('role.permissionsSync', ['role' => $role->id ] )}}" method="post" class="mt-4" autocomplete="off">
+                            @csrf
+                            @method('PUT')
+
+                            @foreach( $permissions as $permission)
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="{{ $permission->id }}" name="{{ $permission->id }}" {{ ($permission->can == '1' ? 'checked' : '') }}>
+                                    <label class="custom-control-label" for="{{ $permission->id }}">{{ $permission->name }}</label>
+                                </div>
+                            @endforeach
+
+                            <button type="submit" class="btn btn-block btn-success mt-4">Sincronizar Perfil</button>
                         </form>
                     </div>
 
