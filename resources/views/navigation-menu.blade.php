@@ -98,8 +98,8 @@
                             <x-jet-dropdown-link href="{{ route('users.index') }}">
                                 {{ __('Usuarios') }}
                             </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                            <x-jet-dropdown-link href="{{ route('roles.index') }}">
+                                {{ __('Perfis') }}
                             </x-jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

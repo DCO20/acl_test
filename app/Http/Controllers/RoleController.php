@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,10 @@ class UserController extends Controller
      */
     public function index()
     {
-       $users = User::all();
-
-       return view('users.index',
-       [ 'users' => $users]
-    );
+        $roles = Role::all();
+        return view('roles.index', [
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -28,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('roles.create');
     }
 
     /**
@@ -39,13 +38,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return redirect()->route('users.index')->with('message', 'Usuário criado com sucesso!.');
+        $role = new Role();
+        $role->name = $request->name;
+        $role->save();
+    
+        return redirect()->route('roles.index')->with('message', 'Perfil criado com sucesso!.');
     }
 
     /**
@@ -67,9 +64,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->first();
+        $role = Role::where('id', $id)->first();
 
-        return view('users.edit', ['user' => $user]);
+        return view('roles.edit', ['role' => $role]);
     }
 
     /**
@@ -81,18 +78,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::where('id', $id)->first();
-        $user->name = $request->name;
-        $user->email = $request->email;
-
-        if(!empty($request->password)){
-            $user->password = bcrypt($request->password);
-        }
-
-        $user->save();
-
-        return redirect()->route('users.index')->with('message', 'Usuaŕio atualizado com sucesso!.');
-
+        $role = Role::where('id', $id)->first();
+        $role->name = $request->name;
+        $role->save();
+    
+        return redirect()->route('roles.index')->with('message', 'Perfil atualizado com sucesso!.');
     }
 
     /**
@@ -103,10 +93,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::where('id', $id)->first();
-        $user->delete();
+        $role = Role::where('id', $id)->first();
+        $role->delete();
 
-        return back()->with('message_danger', 'Usuário excluído com sucesso!.');
-    
+        return back()->with('message_danger', 'Função excluída com sucesso!.');
     }
 }

@@ -13,8 +13,9 @@
                                 </div>
                             @endif
     
-                            <a class="text-success" href="{{route('users.create')}}">&plus; Cadastrar Usuário</a><hr>
+                            <a class="text-success" href="{{route('roles.create')}}">&plus; Cadastrar Perfil</a><hr>
                             @include('includes.alerts')
+                            
                             @if($errors)
                                 @foreach($errors->all() as $error)
                                     <div class="alert alert-danger mt-4" role="alert">
@@ -27,26 +28,27 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Usuário</th>
+                                    <th>Perfil</th>
                                     <th>Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody>
     
-                               @foreach($users as $user)
+                               @foreach($roles as $role)
                                     <tr>
-                                        <td>{{$user->id}}</td>
-                                        <td>{{$user->name}}</td>
+                                        <td>{{$role->id}}</td>
+                                        <td>{{$role->name}}</td>
                                         <td class="d-flex">
-                                            <a class="mr-3 btn btn-sm btn-outline-success" href="{{route('users.edit', ['user' => $user->id])}}">Editar</a>
+                                            <a class="mr-3 btn btn-sm btn-outline-success" href="{{route('roles.edit', ['role' => $role->id])}}">Editar</a>
                                             <a class="mr-3 btn btn-sm btn-outline-primary" href="">Perfis</a>
-                                            <form action="{{route('users.destroy',['user' => $user->id])}}" method="post">
+                                            <form action="{{route('roles.destroy',['role' => $role->id])}}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <input class="btn btn-sm btn-outline-danger" type="submit" value="Remover">
                                             </form>
                                         </td>
                                     </tr>
+                                   
                                 @endforeach
                                 </tbody>
                             </table>
