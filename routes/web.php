@@ -12,6 +12,7 @@ Route::get('/', function () {
 
 Route::resource('users', UserController::class);
 
+Route::get('role/{role}/permissions', [RoleController::class, 'permissions'])->name('role.permissions');
 Route::resource('roles', RoleController::class);
 
 Route::resource('permissions', PermissionController::class);
