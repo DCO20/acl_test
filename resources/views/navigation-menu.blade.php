@@ -95,18 +95,25 @@
                             <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
                             </div>
+
+                            @can('Ver Usuário')
                             <x-jet-dropdown-link href="{{ route('users.index') }}">
                                 {{ __('Usuários') }}
                             </x-jet-dropdown-link>
+                            @endcan
+
+                            @can('Ver Perfis')
                             <x-jet-dropdown-link href="{{ route('roles.index') }}">
                                 {{ __('Perfis') }}
                             </x-jet-dropdown-link>
-                            <x-jet-dropdown-link href="{{ route('permissions.index') }}">
-                                {{ __('Permissões') }}
-                            </x-jet-dropdown-link>
+                            @endcan
+
+                            @can('Ver Post')
                             <x-jet-dropdown-link href="{{ route('posts.index') }}">
                                 {{ __('Blog') }}
                             </x-jet-dropdown-link>
+                            @endcan
+
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}

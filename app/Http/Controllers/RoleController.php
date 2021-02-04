@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -15,6 +17,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+        if(!Auth::user()->hasPermissionTo('Ver Perfis')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $roles = Role::all();
         return view('roles.index', [
             'roles' => $roles
@@ -28,6 +34,10 @@ class RoleController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->hasPermissionTo('Editar Perfil')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         return view('roles.create');
     }
 
@@ -65,6 +75,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        if(!Auth::user()->hasPermissionTo('Editar Perfil')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $role = Role::where('id', $id)->first();
 
         return view('roles.edit', ['role' => $role]);
@@ -94,6 +108,10 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        if(!Auth::user()->hasPermissionTo('Excluir Perfil')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $role = Role::where('id', $id)->first();
         $role->delete();
 
@@ -102,6 +120,10 @@ class RoleController extends Controller
 
     public function permissions($role)
     {
+        if(!Auth::user()->hasPermissionTo('Ver Permissão')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+        
         $role = Role::where('id', $role)->first();
         $permissions = Permission::all();
 

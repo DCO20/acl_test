@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class PostController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->hasPermissionTo('Ver Post')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $posts = Post::all();
 
         return view('posts.index', [
@@ -18,6 +24,10 @@ class PostController extends Controller
 
     public function create()
     {
+        if(!Auth::user()->hasPermissionTo('Adicionar Post')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         return view('posts.create');
     }
 
@@ -35,7 +45,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.index', [
             'post' => $post->id,
-        ])->with('message', 'Artigo adicionado com sucesso!.');
+        ])->with('message', 'Artigo criado com sucesso!.');
     }
     public function show(Post $post)
     {
@@ -44,6 +54,9 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        if(!Auth::user()->hasPermissionTo('Editar Post')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -66,6 +79,10 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        if(!Auth::user()->hasPermissionTo('Excluir Post')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $post->delete();
         return redirect()->route('posts.index')->with('message_danger', 'Artigo excluído com sucesso!.');
     }

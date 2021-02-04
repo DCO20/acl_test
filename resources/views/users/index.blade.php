@@ -12,7 +12,9 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
+                            @can('Adicionar Usuário')
                             <a class="text-success" href="{{route('users.create')}}">&plus; Cadastrar Usuário</a><hr>
+                            @endcan
                             @include('includes.alerts')
                             @if($errors)
                                 @foreach($errors->all() as $error)
@@ -37,12 +39,21 @@
                                         <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
                                         <td class="d-flex">
+                                            @can('Excluir Usuário')
                                             <a class="mr-3 btn btn-sm btn-outline-success" href="{{route('users.edit', ['user' => $user->id])}}">Editar</a>
+                                            @endcan
+
+                                            @can('Adicionar Perfil')
                                             <a class="mr-3 btn btn-sm btn-outline-primary" href="{{route('user.roles', ['user' => $user->id])}}">Perfis</a>
+                                            @endcan
+
+
                                             <form action="{{route('users.destroy',['user' => $user->id])}}" method="post">
                                                 @csrf
                                                 @method('delete')
+                                                @can('Excluir Usuário')
                                                 <input class="btn btn-sm btn-outline-danger" type="submit" value="Remover">
+                                                @endcan
                                             </form>
                                         </td>
                                     </tr>

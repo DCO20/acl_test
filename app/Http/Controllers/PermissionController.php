@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:permissions']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +20,10 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        if(!Auth::user()->hasPermissionTo('Ver Permissão')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $permissions = Permission::all();
         return view('permissions.index',[
             'permissions' => $permissions

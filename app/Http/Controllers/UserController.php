@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -15,6 +17,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        if(!Auth::user()->hasPermissionTo('Ver Usuário')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
        $users = User::all();
 
        return view('users.index',
@@ -29,6 +35,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->hasPermissionTo('Adicionar Usuário')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
         return view('users.create');
     }
 
@@ -68,6 +77,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if(!Auth::user()->hasPermissionTo('Editar Usuário')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $user = User::where('id', $id)->first();
 
         return view('users.edit', ['user' => $user]);
@@ -82,6 +95,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $user = User::where('id', $id)->first();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -104,6 +118,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if(!Auth::user()->hasPermissionTo('Excluir Usuário')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $user = User::where('id', $id)->first();
         $user->delete();
 
@@ -113,6 +131,10 @@ class UserController extends Controller
 
     public function roles($user)
     {
+        if(!Auth::user()->hasPermissionTo('Ver Perfis')){
+            throw new UnauthorizedException('403', 'You do not the required author authorization');
+        }
+
         $user = User::where('id', $user)->first();
         $roles = Role::all();
 

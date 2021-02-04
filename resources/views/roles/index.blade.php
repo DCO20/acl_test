@@ -12,8 +12,9 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
-    
+                            @can('Adicionar Perfil')
                             <a class="text-success" href="{{route('roles.create')}}">&plus; Cadastrar Perfil</a><hr>
+                            @endcan
                             @include('includes.alerts')
                             
                             @if($errors)
@@ -39,12 +40,20 @@
                                         <td>{{$role->id}}</td>
                                         <td>{{$role->name}}</td>
                                         <td class="d-flex">
+                                            @can('Editar Perfil')
                                             <a class="mr-3 btn btn-sm btn-outline-success" href="{{route('roles.edit', ['role' => $role->id])}}">Editar</a>
+                                            @endcan
+
+                                            @can('Ver Permissão')
                                             <a class="mr-3 btn btn-sm btn-outline-primary" href="{{route('role.permissions', ['role' => $role->id ])}}">Permissões</a>
+                                            @endcan
+                                        
                                             <form action="{{route('roles.destroy',['role' => $role->id])}}" method="post">
                                                 @csrf
                                                 @method('delete')
+                                                @can('Excluir Perfil')
                                                 <input class="btn btn-sm btn-outline-danger" type="submit" value="Remover">
+                                                @endcan
                                             </form>
                                         </td>
                                     </tr>
