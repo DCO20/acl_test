@@ -8,7 +8,7 @@
 
                     <div class="card-body">
 
-                        <a class="text-success" href="{{route('roles.index')}}">&leftarrow; Voltar para a listagem</a>
+                        <a class="text-success" href="{{route('users.index')}}">&leftarrow; Voltar para a listagem</a>
 
                         @if($errors)
                             @foreach($errors->all() as $error)
@@ -18,16 +18,16 @@
                             @endforeach
                         @endif
                         
-                        <h4 class="mt-4">Permissões para: {{$role->name}}</h4>
+                        <h4 class="mt-4">Perfis para: {{$user->name}}</h4>
 
-                        <form action="{{ route('role.permissionsSync', ['role' => $role->id ] )}}" method="post" class="mt-4" autocomplete="off">
+                        <form action="{{ route('user.rolesSync', ['user' => $user->id ] )}}" method="post" class="mt-4" autocomplete="off">
                             @csrf
                             @method('PUT')
 
-                            @foreach( $permissions as $permission)
+                            @foreach( $roles as $role)
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="{{ $permission->id }}" name="{{ $permission->id }}" {{ ($permission->can == '1' ? 'checked' : '') }}>
-                                    <label class="custom-control-label" for="{{ $permission->id }}">{{ $permission->name }}</label>
+                                    <input type="checkbox" class="custom-control-input" id="{{ $role->id }}" name="{{ $role->id }}" {{ ($role->can == '1' ? 'checked' : '') }}>
+                                    <label class="custom-control-label" for="{{ $role->id }}">{{ $role->name }}</label>
                                 </div>
                             @endforeach
 

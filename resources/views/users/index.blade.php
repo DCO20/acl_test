@@ -12,7 +12,6 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
-    
                             <a class="text-success" href="{{route('users.create')}}">&plus; Cadastrar Usuário</a><hr>
                             @include('includes.alerts')
                             @if($errors)
@@ -39,7 +38,7 @@
                                         <td>{{$user->name}}</td>
                                         <td class="d-flex">
                                             <a class="mr-3 btn btn-sm btn-outline-success" href="{{route('users.edit', ['user' => $user->id])}}">Editar</a>
-                                            <a class="mr-3 btn btn-sm btn-outline-primary" href="">Perfis</a>
+                                            <a class="mr-3 btn btn-sm btn-outline-primary" href="{{route('user.roles', ['user' => $user->id])}}">Perfis</a>
                                             <form action="{{route('users.destroy',['user' => $user->id])}}" method="post">
                                                 @csrf
                                                 @method('delete')
